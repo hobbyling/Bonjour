@@ -1,11 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="UTF-8">
-	<% include ../partials/head %>	
+    <% include ../partials/head %>
+    <style>
+    	body{
+    		background: #DCDCDC;
+    	}
+    	#wrap{
+    		margin:0 auto;
+			width:1000px;
+    	}
+    	h1{
+			margin-top: 50px;
+    		text-align: center;
+    	}
+    	#board{
+    		margin-top:80px; 
+    	}
+    	#boardli li{
+    		float: left;
+    		margin: 5px;
+    		color:white;
+    		list-style-type: none;
+    	}
+    	#boardli li a{
+    		width:200px;
+    		height: 200px;
+			display: block;
+			text-decoration: none;
+			text-align: center;
+			border-radius: 10px;
+			padding: 10px;
+			color:black;
+			border-width:4px;
+			border-style: solid;
+		}
+		#boardli li a:hover{
+			background: gray;
+		}
+		#boardli li a h3{
+			padding-top: 50px;
+			font:24px 微軟正黑體, Calibri;
+			font-weight: bold;
+		}
+    </style>
+    
+	<!-- <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script> -->
+	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script>
+  //       var config = {
+  //   		apiKey: "AIzaSyByKsrnp_Cpvf5A_HgireonTXolgCcwsKk",
+  //   		authDomain: "bonjour-61159.firebaseapp.com",
+  //   		databaseURL: "https://bonjour-61159.firebaseio.com",
+  //   		storageBucket: "bonjour-61159.appspot.com",
+  //   		messagingSenderId: "136270025924"
+  // 		};
+		// firebase.initializeApp(config);
+		// // 建立 DB
+		// var database = firebase.database();
+		// function addBoard(boardId,boardname,member,message){
+		// 	database.ref('board/'+boardId).push({
+		// 		boardname:boardname,
+		// 		member:member,
+		// 		message:message
+		// 	});
+		// }
+		
+	</script>
 </head>
 <body>
-	success
-	<a href="login">logout</a>
+	<div id="wrap">
+		<a href="login">logout</a>
+		<h1>Bonjour</h1>
+		<div id="board">
+			<ul id="boardli">
+				<li><a href="/chat" style="background: white"><h3>八卦版</h3></a></li>
+				<li><a href="#" style="background: #FF3333"><h3>運動版</h3></a></li>
+				<li><a href="#" style="background: #4682B4"><h3>新聞版</h3></a></li>
+				<li><a href="#" style="background: #EEEE00"><h3>時尚版</h3></a></li>
+				<li><a href="#" style="background: #4682B4"><h3>音樂版</h3></a></li>
+				<li><a href="#" style="background: #EEEE00"><h3>遊戲版</h3></a></li>
+				<li><a href="#" style="background: white"><h3>電影版</h3></a></li>
+				<li><a href="#" style="background: #FF3333"><h3>旅遊版</h3></a></li>
+			</ul>
+		</div>
+		
+	</div>
+</body>
+    
 </body>
 </html>

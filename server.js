@@ -39,9 +39,80 @@ var config = {
  var database = firebase.database();
 
      
+database.ref('board/goosip/').update({
+	boardid:"b",
+	boardname:"八卦版",
+});
+database.ref('board/sport/').update({
+	boardid:"b2",
+	boardname:"運動版",
+});
+database.ref('board/news/').update({
+	id:"b3",
+	boardname:"新聞版"
+});
+database.ref('board/fashion/').update({
+	id:"b4",
+	boardname:"時尚版",
+});
+database.ref('board/music/').update({
+	id:"b5",
+	boardname:"音樂版",
+});
+database.ref('board/game/').update({
+	id:"b6",
+	boardname:"遊戲版",
+});
+database.ref('board/movie/').update({
+	id:"b7",
+	boardname:"電影版"
+});
+database.ref('board/trip/').update({
+	id:"b8",
+	boardname:"旅遊版",
+});
+
+app.get('/index', function(req, res){
+ 	res.render('pages/index');
+});
+app.get('/chat', function(req, res){
+ 	res.render('pages/chat');
+});
+// var user_count=0;
+
+//當新的使用者進入聊天室
+io.on('connection',function(socket){
+	//新user
+ 	socket.on('add user',function(msg){
+ 		socket.username=msg;
+ 		console.log("new user:"+msg+"logged.");
+ 		io.emit('add user',{
+ 			username:socket.username
+ 		});
+ 	});
+ 	//監聽新訊息事件
+ 	socket.on('chat message',function(msg){
+ 		console.log(socket.username+":"+msg);
+ 		//發佈新訊息
+ 		io.emit('chat message',{
+ 			username:socket.username,
+ 			msg:msg
+ 		});
+ 	});
+ 	//離開聊天室
+ 	socket.on('disconnect',function(){
+ 		console.log(socket.username+"left.");
+ 		io.emit('user left',{
+ 			username:socket.username
+ 		});
+ 	});
+});
 
 app.get('/', function(req, res){
- 	res.render('pages/index');
+	var note = "";
+ 	res.render('pages/login',{
+ 		tagline_login: note
+ 	});
 });
 
 //login page
