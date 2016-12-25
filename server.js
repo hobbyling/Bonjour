@@ -46,10 +46,30 @@ app.get('/', function(req, res){
 
 //login page
  app.get('/login', function(req, res){
- 	res.render('pages/login');
+ 	var note = "";
+ 	res.render('pages/login',{
+ 		tagline_login: note
+ 	});
  });
 
+//取得登入表單資料
+app.post('/loginform', function(req, res){
+	console.log(req.body.login_id);
+ 	console.log(req.body.login_pw);
+ 	firebase.database().ref().child('/user').orderByChild('id').equalTo(req.body.login_id).on('value',function(snapshot){
+ 		var data = snapshot.val();
+		console.log(snapshot.val());
 
+ 		if(snapshot.val() == null){
+			var note = "--ID或密碼輸入錯誤!--";
+			res.render('pages/login', {
+		        tagline_login: note
+		    });
+		}else{
+		    res.render('pages/index');
+		}
+	});
+});
 
 //logon page
  app.get('/logon', function(req, res){ 	
@@ -63,24 +83,27 @@ app.get('/', function(req, res){
 app.post('/logonform', function(req, res){
 	console.log(req.body.id);
  	console.log(req.body.pw);
-	firebase.database().ref('/user/').ref.once('value', function(snapshot) {
+ 	firebase.database().ref().child('/user').orderByChild('id').equalTo(req.body.id).on('value',function(snapshot){
+ 		var data = snapshot.val();
 		console.log(snapshot.val());
-		if(id = req.body.id){
-			var note = "--此ID已存在--";
-			res.render('pages/logon', {
-		        tagline: note
-		    });
-		}else{
+
+		if(snapshot.val() == null){
 			//將表單資料寫入資料庫
 		 	var key = firebase.database().ref('user/').push({
 		        id: req.body.id,
 		        password: req.body.pw,
 		    }).key;
 		    res.render('pages/index');
+		}else{
+		    
+		    var note = "--此ID已存在--";
+			res.render('pages/logon', {
+		        tagline: note
+		    });
+
 		}
 	});
- });
-
+});
 
 
 http.listen(process.env.PORT || 3000, function() {  
