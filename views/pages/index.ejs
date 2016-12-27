@@ -2,49 +2,7 @@
 <html lang="en">
 <head>
     <% include ../partials/head %>
-    <style>
-    	body{
-    		background: #DCDCDC;
-    	}
-    	#wrap{
-    		margin:0 auto;
-			width:1000px;
-    	}
-    	h1{
-			margin-top: 50px;
-    		text-align: center;
-    	}
-    	#board{
-    		margin-top:80px; 
-    	}
-    	#boardli li{
-    		float: left;
-    		margin: 5px;
-    		color:white;
-    		list-style-type: none;
-    	}
-    	#boardli li a{
-    		width:200px;
-    		height: 200px;
-			display: block;
-			text-decoration: none;
-			text-align: center;
-			border-radius: 10px;
-			padding: 10px;
-			color:black;
-			border-width:4px;
-			border-style: solid;
-		}
-		#boardli li a:hover{
-			background: gray;
-		}
-		#boardli li a h3{
-			padding-top: 50px;
-			font:24px 微軟正黑體, Calibri;
-			font-weight: bold;
-		}
-    </style>
-    
+
 	<!-- <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script> -->
 	<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
@@ -69,22 +27,27 @@
 		
 	</script>
 </head>
-<body>
+<body class="indexbg">
 	<div id="wrap">
-		<a href="login">logout</a>
+	<header>
+		<form id="logout_form" action="/logout" method="post">	
+			<button id="logout_btn">登出</button></br>
+		</form>
+		<div class="clear"></div>
 		<h1>Bonjour</h1>
-		<div id="board">
-			<ul id="boardli">
-				<li><a href="/chat" style="background: white"><h3>八卦版</h3></a></li>
-				<li><a href="#" style="background: #FF3333"><h3>運動版</h3></a></li>
-				<li><a href="#" style="background: #4682B4"><h3>新聞版</h3></a></li>
-				<li><a href="#" style="background: #EEEE00"><h3>時尚版</h3></a></li>
-				<li><a href="#" style="background: #4682B4"><h3>音樂版</h3></a></li>
-				<li><a href="#" style="background: #EEEE00"><h3>遊戲版</h3></a></li>
-				<li><a href="#" style="background: white"><h3>電影版</h3></a></li>
-				<li><a href="#" style="background: #FF3333"><h3>旅遊版</h3></a></li>
-			</ul>
-		</div>
+	</header>
+	<div class="board">
+		<ul class="boardli">
+			<li><a href="/chat" id="boardred"><img src="../../board_gossip.png" alt=""><h3>八卦版</h3></a></li>
+			<li><a href="#"><img src="../../board_sport.png" alt=""><h3>運動版</h3></a></li>
+			<li><a href="#" id="boardblue"><img src="../../board_news.png" alt=""><h3>新聞版</h3></a></li>
+			<li><a href="#"><img src="../../board_fashion.png" alt=""><h3>時尚版</h3></a></li>
+			<li><a href="#"><img src="../../board_music.png" alt=""><h3>音樂版</h3></a></li>
+			<li><a href="#" id="boardblue"><img src="../../board_game.png" alt=""><h3>遊戲版</h3></a></li>
+			<li><a href="#"><img src="../../board_movie.png" alt=""><h3>電影版</h3></a></li>
+			<li><a href="#" id="boardyellow"><img src="../../board_travel.png" alt=""><h3>旅遊版</h3></a></li>
+		</ul>
+	</div>
 		
 	</div>
 </body>

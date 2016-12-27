@@ -130,7 +130,7 @@ app.post('/loginform', function(req, res){
  	firebase.database().ref().child('/user').orderByChild('id').equalTo(req.body.login_id).on('value',function(snapshot){
  		var data = snapshot.val();
 		console.log(snapshot.val());
-
+		console.log(snapshot.val()==null);
  		if(snapshot.val() == null){
 			var note = "--ID或密碼輸入錯誤!--";
 			res.render('pages/login', {
@@ -150,32 +150,44 @@ app.post('/loginform', function(req, res){
  	});
  });
 
+
 //取得註冊表單資料
 app.post('/logonform', function(req, res){
 	console.log(req.body.id);
  	console.log(req.body.pw);
- 	firebase.database().ref().child('/user').orderByChild('id').equalTo(req.body.id).on('value',function(snapshot){
- 		var data = snapshot.val();
-		console.log(snapshot.val());
+ 	firebase.database().ref('/user/').orderByChild("id").equalTo(req.body.id).on('value',function(snapshot){
+ 		var data = JSON.stringify(snapshot.val());
+ 		console.log(Array.isArray(data));
+ 		console.log(typeof(data));
+ 		console.log();
+ 		console.log(snapshot.val());
+		console.log(snapshot.val() == null);
 
 		if(snapshot.val() == null){
+			console.log('1');
 			//將表單資料寫入資料庫
-		 	var key = firebase.database().ref('user/').push({
+		 	firebase.database().ref('user/').push({
 		        id: req.body.id,
 		        password: req.body.pw,
 		    }).key;
+		    console.log('1.1');
 		    res.render('pages/index');
 		}else{
-		    
+		    console.log('2');
 		    var note = "--此ID已存在--";
 			res.render('pages/logon', {
 		        tagline: note
 		    });
-
 		}
 	});
 });
 
+app.post('/logout', function(req, res){
+	var note = "";
+ 	res.render('pages/login',{
+ 		tagline_login: note
+ 	});
+});
 
 http.listen(process.env.PORT || 3000, function() {  
   console.log('Listening on port 3000');  
