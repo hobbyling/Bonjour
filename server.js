@@ -39,38 +39,38 @@ var config = {
  var database = firebase.database();
 
      
-database.ref('board/goosip/').update({
-	boardid:"b",
-	boardname:"八卦版",
-});
-database.ref('board/sport/').update({
-	boardid:"b2",
-	boardname:"運動版",
-});
-database.ref('board/news/').update({
-	id:"b3",
-	boardname:"新聞版"
-});
-database.ref('board/fashion/').update({
-	id:"b4",
-	boardname:"時尚版",
-});
-database.ref('board/music/').update({
-	id:"b5",
-	boardname:"音樂版",
-});
-database.ref('board/game/').update({
-	id:"b6",
-	boardname:"遊戲版",
-});
-database.ref('board/movie/').update({
-	id:"b7",
-	boardname:"電影版"
-});
-database.ref('board/trip/').update({
-	id:"b8",
-	boardname:"旅遊版",
-});
+// database.ref('board/goosip/').update({
+// 	boardid:"b",
+// 	boardname:"八卦版",
+// });
+// database.ref('board/sport/').update({
+// 	boardid:"b2",
+// 	boardname:"運動版",
+// });
+// database.ref('board/news/').update({
+// 	id:"b3",
+// 	boardname:"新聞版"
+// });
+// database.ref('board/fashion/').update({
+// 	id:"b4",
+// 	boardname:"時尚版",
+// });
+// database.ref('board/music/').update({
+// 	id:"b5",
+// 	boardname:"音樂版",
+// });
+// database.ref('board/game/').update({
+// 	id:"b6",
+// 	boardname:"遊戲版",
+// });
+// database.ref('board/movie/').update({
+// 	id:"b7",
+// 	boardname:"電影版"
+// });
+// database.ref('board/trip/').update({
+// 	id:"b8",
+// 	boardname:"旅遊版",
+// });
 
 app.get('/index', function(req, res){
  	res.render('pages/index');
@@ -127,11 +127,16 @@ app.get('/', function(req, res){
 app.post('/loginform', function(req, res){
 	console.log(req.body.login_id);
  	console.log(req.body.login_pw);
- 	firebase.database().ref().child('/user').orderByChild('id').equalTo(req.body.login_id).on('value',function(snapshot){
- 		var data = snapshot.val();
-		console.log(snapshot.val());
-		console.log(snapshot.val()==null);
- 		if(snapshot.val() == null){
+
+ 	database.ref('/user/').orderByChild("id").equalTo(req.body.login_id).on('value',function(snapshot){
+ 		var data = JSON.stringify(snapshot.val());  //將陣列轉換成字串
+ 		var result1  = data.indexOf("\"id\":\""+req.body.login_id+"\"");   //將陣列與ID進行比對
+ 		var result2  = data.indexOf("\"password\":\""+req.body.login_pw+"\"");   //將陣列與ID進行比對
+ 		console.log(data);
+ 		console.log(result1);
+ 		console.log(result2);
+
+ 		if(result1 == -1 || result2 == -1){
 			var note = "--ID或密碼輸入錯誤!--";
 			res.render('pages/login', {
 		        tagline_login: note
@@ -155,29 +160,29 @@ app.post('/loginform', function(req, res){
 app.post('/logonform', function(req, res){
 	console.log(req.body.id);
  	console.log(req.body.pw);
- 	firebase.database().ref('/user/').orderByChild("id").equalTo(req.body.id).on('value',function(snapshot){
- 		var data = JSON.stringify(snapshot.val());
- 		console.log(Array.isArray(data));
- 		console.log(typeof(data));
- 		console.log();
- 		console.log(snapshot.val());
-		console.log(snapshot.val() == null);
+ 
+ 	database.ref('/user/').orderByChild("id").equalTo(req.body.id).on('value',function(snapshot){
+ 		var data = JSON.stringify(snapshot.val());  //將陣列轉換成字串
+ 		var result  = data.indexOf("\"id\":\""+req.body.id+"\"");   //將陣列與輸入值進行比對
+ 		console.log("\"id\":\""+req.body.id+"\"");
+ 		console.log(data);
+ 		console.log(result);
 
-		if(snapshot.val() == null){
-			console.log('1');
+		if(result !== -1){
+			console.log('ID已存在');
+		    var note = "--此ID已存在--";
+			res.render('pages/logon', {
+		        tagline: note
+		    });
+		}else{
+		    console.log('ID不存在');
+		    res.render('pages/index');
 			//將表單資料寫入資料庫
 		 	firebase.database().ref('user/').push({
 		        id: req.body.id,
 		        password: req.body.pw,
 		    }).key;
-		    console.log('1.1');
-		    res.render('pages/index');
-		}else{
-		    console.log('2');
-		    var note = "--此ID已存在--";
-			res.render('pages/logon', {
-		        tagline: note
-		    });
+		    console.log('ID已新建');    
 		}
 	});
 });
