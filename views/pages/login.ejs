@@ -3,6 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<% include ../partials/head %>
+</script>
 </head>
 <body class="logbg">
 	<div class="wrap">
@@ -13,7 +14,7 @@
 			<form action="/loginform" method="post">
 				<input class="input" type="text" placeholder="User ID" name="login_id" id="login_id"></br>
 				<input class="input" type="password" placeholder="Password" name="login_pw" id="login_pw"></br>
-				<button>登入</button></br>
+				<button id="submit">登入</button></br>
 			</form>
 
 			<span class="logon"><a href="logon">註冊新ID</a></span>
@@ -21,6 +22,6 @@
     </div>
     <footer>
 	        <% include ../partials/footer %>
-	    </footer>
+	</footer>
 </body>
 </html>

@@ -112,12 +112,12 @@
 	// 建立 DB
 	var database = firebase.database();
 	function addBoardMember(userId){
-		database.ref('board/goosip/member/'+userId).push({
+		database.ref('board/music/member/'+userId).push({
 			username:username
 		});
 	}
 	function addMessage(senderName,text){
-		database.ref('board/goosip/message/').push({
+		database.ref('board/music/message/').push({
 			// senderId:senderId,
 			senderName:senderName,
 			text:text
@@ -128,7 +128,7 @@
         var message = document.getElementById("message_block");
         message.scrollTop = message.scrollHeight;
     }
-	database.ref('board/goosip/message/').once('value').then(function(snapshot) {
+	database.ref('board/music/message/').once('value').then(function(snapshot) {
             var message = snapshot.val();
             $('#messages').empty();
             $.each(snapshot.val(),function(k,v){
@@ -137,8 +137,6 @@
     });
 	var socket = io();
       $(document).ready(function(){
-        console.log(req.session.name);
-        // var name = req.session.name;
         var name = prompt("請輸入你的名字","訪客");
         if(name=="" || name==null){
           name = "訪客";
@@ -184,8 +182,12 @@
 	<div id="wrap">
 		<div id ="user">
 			<div id="user_header">
-				<h2>八卦版</h2>
+				<h2>音樂版</h2>
+
+
 				<a href="/index">HOME</a>
+
+
 			</div>
 			<div id="clear"></div>
 			<ul id="user_name"></ul>

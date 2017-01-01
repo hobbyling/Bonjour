@@ -31,14 +31,14 @@
 	<div id="wrap">
 	<header>
 		<form id="logout_form" action="/logout" method="post">	
-			<button id="logout_btn">登出</button></br>
+			<span><%= loginid %></span> <button id="logout_btn">登出</button></br>
 		</form>
 		<div class="clear"></div>
-		<h1>Bonjour</h1>
+		<h1 id="indexh1">Bonjour</h1>
 	</header>
 	<div class="board">
 		<ul class="boardli">
-			<li><a href="/chat" id="boardred"><img src="../../board_gossip.png" alt=""><h3>八卦版</h3></a></li>
+			<li><a href="/goosip?id=<%= loginid %>" id="boardred"><img src="../../board_gossip.png" alt=""><h3>八卦版</h3></a></li>
 			<li><a href="#"><img src="../../board_sport.png" alt=""><h3>運動版</h3></a></li>
 			<li><a href="#" id="boardblue"><img src="../../board_news.png" alt=""><h3>新聞版</h3></a></li>
 			<li><a href="#"><img src="../../board_fashion.png" alt=""><h3>時尚版</h3></a></li>
@@ -47,6 +47,8 @@
 			<li><a href="#"><img src="../../board_movie.png" alt=""><h3>電影版</h3></a></li>
 			<li><a href="#" id="boardyellow"><img src="../../board_travel.png" alt=""><h3>旅遊版</h3></a></li>
 		</ul>
+	
+		
 	</div>
 		
 	</div>

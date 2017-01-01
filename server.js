@@ -9,6 +9,7 @@ var bodyParser = require('body-parser');
 var favicon = require('serve-favicon');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
+var session = require('express-session');
 
 // router設定
  // var page = require('./routes/page');
@@ -17,6 +18,20 @@ var io = require('socket.io')(http);
 // 讓回傳的值可以解析 json與 urlencoded
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true}));
+app.use(session({secret: 'ssshhhhh',saveUninitialized: true,resave: true}));
+
+var sess;
+//session
+
+// app.use(session({
+// 	secret: 'keyboard cat', // 用来对session id相关的cookie进行签名
+//   	saveUninitialized: true,  // 是否自动保存未初始化的会话，建议false
+//   	resave: false,  // 是否每次都重新保存会话，建议false
+//     cookie: {
+//         maxAge: 10 * 1000  // 有效期，单位是毫秒
+//     }
+// }));
+
 
 // 版型設定
 app.use(partials());
@@ -38,7 +53,6 @@ var config = {
  firebase.initializeApp(config);
  var database = firebase.database();
 
-     
 // database.ref('board/goosip/').update({
 // 	boardid:"b",
 // 	boardname:"八卦版",
@@ -72,11 +86,41 @@ var config = {
 // 	boardname:"旅遊版",
 // });
 
-app.get('/index', function(req, res){
- 	res.render('pages/index');
+app.get('/', function(req, res){
+ 	var note = "";
+ 	
+ 	if(req.session.sign == true){
+		res.render('pages/index');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
 });
-app.get('/chat', function(req, res){
- 	res.render('pages/chat');
+
+app.get('/index', function(req, res){
+ 	var note = "";
+ 	if(req.session.sign == true){
+		res.redirect('pages/index');
+		// res.render('pages/index');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
+app.get('/goosip', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	res.render('pages/goosip',{
+		// session: req.session.name
+	});
+ // 	if(req.session.sign){
+	// 	res.redirect('pages/goosip');
+	// }else{
+	// 	res.render('pages/login');
+ // 	}
 });
 // var user_count=0;
 
@@ -84,6 +128,7 @@ app.get('/chat', function(req, res){
 io.on('connection',function(socket){
 	//新user
  	socket.on('add user',function(msg){
+ 		
  		socket.username=msg;
  		console.log("new user:"+msg+"logged.");
  		io.emit('add user',{
@@ -108,13 +153,6 @@ io.on('connection',function(socket){
  	});
 });
 
-app.get('/', function(req, res){
-	var note = "";
- 	res.render('pages/login',{
- 		tagline_login: note
- 	});
-});
-
 //login page
  app.get('/login', function(req, res){
  	var note = "";
@@ -125,24 +163,28 @@ app.get('/', function(req, res){
 
 //取得登入表單資料
 app.post('/loginform', function(req, res){
-	console.log(req.body.login_id);
- 	console.log(req.body.login_pw);
+	console.log("id:"+req.body.login_id);
+ 	console.log("pw:"+req.body.login_pw);
 
  	database.ref('/user/').orderByChild("id").equalTo(req.body.login_id).on('value',function(snapshot){
  		var data = JSON.stringify(snapshot.val());  //將陣列轉換成字串
  		var result1  = data.indexOf("\"id\":\""+req.body.login_id+"\"");   //將陣列與ID進行比對
  		var result2  = data.indexOf("\"password\":\""+req.body.login_pw+"\"");   //將陣列與ID進行比對
- 		console.log(data);
- 		console.log(result1);
- 		console.log(result2);
-
+ 		console.log("data:"+data);
+ 		console.log(result1+" & "+result2);
+ 		
  		if(result1 == -1 || result2 == -1){
 			var note = "--ID或密碼輸入錯誤!--";
 			res.render('pages/login', {
 		        tagline_login: note
 		    });
 		}else{
-		    res.render('pages/index');
+			req.session.sign = true;
+			req.session.name = req.body.login_id;
+			console.log("session name:"+req.session.name);
+		    res.render('pages/index',{
+		    	loginid: req.session.name
+		    });
 		}
 	});
 });
@@ -161,7 +203,7 @@ app.post('/logonform', function(req, res){
 	console.log(req.body.id);
  	console.log(req.body.pw);
  
- 	database.ref('/user/').orderByChild("id").equalTo(req.body.id).on('value',function(snapshot){
+ 	database.ref('/user/').equalTo(req.body.id).on('value',function(snapshot){
  		var data = JSON.stringify(snapshot.val());  //將陣列轉換成字串
  		var result  = data.indexOf("\"id\":\""+req.body.id+"\"");   //將陣列與輸入值進行比對
  		console.log("\"id\":\""+req.body.id+"\"");
@@ -176,18 +218,37 @@ app.post('/logonform', function(req, res){
 		    });
 		}else{
 		    console.log('ID不存在');
-		    res.render('pages/index');
+		    req.session.sign = true;
+			req.session.name = req.body.id;
+			console.log("session name:"+req.session.name);
+		    res.render('pages/index',{
+		    	loginid: req.session.name
+		    });
+		    
 			//將表單資料寫入資料庫
 		 	firebase.database().ref('user/').push({
 		        id: req.body.id,
 		        password: req.body.pw,
 		    }).key;
-		    console.log('ID已新建');    
+		    console.log('ID已新建');
+		    return; 
 		}
 	});
 });
 
+
+app.post('/backhome', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+ 	res.render('pages/index',{
+ 		loginid: req.session.name
+ 	});
+});
+
 app.post('/logout', function(req, res){
+	req.session.sign = false;
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
 	var note = "";
  	res.render('pages/login',{
  		tagline_login: note
