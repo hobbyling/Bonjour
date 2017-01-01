@@ -2,101 +2,6 @@
 <html lang="en">
 <head>
     <% include ../partials/head %>
-    <style>
-	* { margin: 0; padding: 0; box-sizing: border-box; }
-      body { 
-      	font: 14px 微軟正黑體, Calibri;
-		background: #DCDCDC;
-      }
-      #user{
-      	background: rgba(0%,0%,0%,0.8);
-      	width:20%;
-      	position: absolute;
-        top:0;
-        bottom: 0;
-        overflow:auto;
-      }
-      #user_header{
-      	width: 100%;
-      	position: absolute;
-        top:0;
-      	border-bottom: solid 2px #eee;
-      }
-      #user h2{
-      	float:left;
-		color:white;
-		padding: 10px;
-      }
-      #user a{
-      	background: #dc143c;
-      	color:white;
-		float:right;
-		padding: 5px;
-		text-decoration: none;
-		border-radius: 2px;
-		margin: 10px;
-		font-weight: bold;
-      }
-      #clear{
-      	clear: both;
-      }
-      #user_name li { 
-      	margin-top: 60px;
-        padding: 5px 10px; 
-        color:#eee;
-      }
-      #user_name li:nth-child(odd) { 
-        border-bottom: solid 2px rgba(100%,100%,100%,0.5);
-      }
-      #m{ 
-        border: 2px solid black;
-        background: #DCDCDC; 
-        border-radius:5px;
-        padding: 10px; 
-        width: 70%; 
-        margin-right: .5%;
-        margin-top: .5%;
-        margin-bottom: .5%;
-        margin-left: 20.5%; 
-        position: fixed; 
-        bottom: 0;
-      }
-      #send{ 
-        width: 8%; 
-        margin: .5%; 
-        background: #dc143c;
-        color:white; 
-        border-radius:10px;
-        padding: 10px; 
-        position: fixed; 
-        bottom: 0;
-        right:5px;
-        font-weight:bold;
-      }
-      #message_block{
-        width:80%;
-        position: absolute;
-        top:0;
-        bottom:5%;
-        margin-bottom:20px;
-        margin-left:20%; 
-        border-bottom: solid 2px #eee; 
-        overflow:auto;
-      }
-      #messages { 
-        list-style-type: none; 
-        margin: 10px; 
-        padding: 0; 
-      }
-      #messages li { 
-        padding: 5px 10px; 
-        font-size:16pt;
-      }
-      #messages li:nth-child(odd) { 
-        background: #eee; 
-        border-radius:5px;
-      }
-</style>
 <script src="https://www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
@@ -137,10 +42,22 @@
     });
 	var socket = io();
       $(document).ready(function(){
-        var name = prompt("請輸入你的名字","訪客");
-        if(name=="" || name==null){
-          name = "訪客";
+        // var name = prompt("請輸入你的名字","訪客");
+        // if(name=="" || name==null){
+        //   name = "訪客";
+        // }
+
+        //擷取網址列的id值
+        var url = location.search;
+        var rid;
+        if(url.indexOf("?") != -1) {
+          var str = url.substr(1);
+          // str.split("=")[0] 為 userID
+          rid = str.split("=")[1];
         }
+        console.log(rid);
+        var name = rid;
+
         //tell server
         socket.emit("add user",name);
         //監聽新訊息事件
@@ -149,7 +66,7 @@
           addMessage(data.username,data.msg);
         });
         socket.on('add user',function(data){
-          appendUser(data.username+" 在線上");
+          appendUser(data.username);
         });
         socket.on('user left',function(data){
           appendUser(data.username+" 已離開");
@@ -183,22 +100,18 @@
 		<div id ="user">
 			<div id="user_header">
 				<h2>時尚版</h2>
-
-
-				<a href="/index">HOME</a>
-
-
+        <form id="backhome_form" action="/backhome" method="post">  
+            <button id="backhome_btn">HOME</button></br>
+        </form>
+        <span class="onlineid">在線ID</span>
 			</div>
 			<div id="clear"></div>
 			<ul id="user_name"></ul>
 		</div>
-    	<div id="message_block">
-        	<ul id="messages"></ul>
-    	</div>
-        	<input id="m" placeholder="我想說..." autocomplete="off" /><button id="send">Send</button>
+    <div id="message_block">
+      <ul id="messages"></ul>
     </div>
-    
-</body>
-    
+    <input id="m" placeholder="我想說..." autocomplete="off" /><button id="send">Send</button>
+  </div>       
 </body>
 </html>

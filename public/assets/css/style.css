@@ -68,6 +68,11 @@ table {
       font-family: 'Verdana', "微軟正黑體", "Arial";
     }
 
+    .chatbg{
+      font: 14px 微軟正黑體, Calibri;
+      background: #DCDCDC;
+    }
+
     .wrap{
       width: 1000px;
       height: 500px;
@@ -237,6 +242,116 @@ table {
     #boardyellow{
       background: rgba(238,238,0, 0.8);
     }
+
+    /*聊天室*/
+    #user{
+      background: rgba(0%,0%,0%,0.8);
+      width:20%;
+      position: absolute;
+      top:0;
+      bottom: 0;
+      overflow:auto;
+    }
+
+    #user_header{
+      width: 100%;
+      position: absolute;
+      top:0;
+      border-bottom: solid 2px #eee;
+    }
+
+    #user h2{
+      float:left;
+      color:white;
+      margin: 30px 30px 20px 30px;
+      /*padding: 10px;*/
+    }
+      
+    #backhome_form{
+      width: 90%;
+      margin: 20px 5px 0 20px;
+    }
+
+    #backhome_btn{
+      font-size: 14px;
+      width: 55px;
+    }
+
+    .onlineid{
+      display: inline-block;
+      width: 100%;
+      text-align: center;
+      color: #FFFFFF;
+    }
+
+    #user_name{
+      margin: 115px 0 0 0;
+    }
+
+    #user_name li { 
+      padding: 5px 10px;
+      color: #FFFFFF;
+    }
+    
+    #user_name li:nth-child(odd) { 
+      border-bottom: solid 2px rgba(100%,100%,100%,0.5);
+    }
+    
+    #m{ 
+      border: 2px solid black;
+      background: #DCDCDC; 
+      border-radius:5px;
+      padding: 10px; 
+      width: 65%; 
+      margin-right: .5%;
+      margin-top: .5%;
+      margin-bottom: .5%;
+      margin-left: 20.5%; 
+      position: fixed; 
+      bottom: 0;
+    }
+
+    #send{ 
+      width: 8%; 
+      margin: .5%; 
+      background: #dc143c;
+      color:white; 
+      border-radius:10px;
+      padding: 10px; 
+      position: fixed; 
+      bottom: 0;
+      right:5px;
+      font-weight:bold;
+    }
+  
+   #message_block{
+      width:80%;
+      position: absolute;
+      top:0;
+      bottom:5%;
+      margin-bottom:20px;
+      margin-left:20%; 
+      border-bottom: solid 2px #eee; 
+      overflow:auto;
+    }
+ 
+    #messages { 
+      list-style-type: none; 
+      margin: 10px; 
+      padding: 0; 
+    }
+
+    #messages li { 
+      padding: 5px 10px; 
+      font-size:16pt;
+    }
+  
+    #messages li:nth-child(odd) { 
+      background: #eee; 
+      border-radius:5px;
+    }
+
+      /*聊天室end*/
 
     footer{
       text-align: center;

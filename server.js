@@ -113,15 +113,131 @@ app.get('/index', function(req, res){
 app.get('/goosip', function(req, res){
 	console.log("session sign:"+req.session.sign);
 	console.log("session name:"+req.session.name);
-	res.render('pages/goosip',{
-		// session: req.session.name
-	});
- // 	if(req.session.sign){
-	// 	res.redirect('pages/goosip');
-	// }else{
-	// 	res.render('pages/login');
- // 	}
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/goosip');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
 });
+
+app.get('/fashion', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/fashion');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
+app.get('/game', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/game');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
+app.get('/movie', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/movie');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
+app.get('/music', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/music');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
+app.get('/news', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/news');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
+app.get('/sport', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/sport');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
+app.get('/trip', function(req, res){
+	console.log("session sign:"+req.session.sign);
+	console.log("session name:"+req.session.name);
+	var note = "請登入";
+	// res.render('pages/goosip',{
+	// 	// session: req.session.name
+	// });
+ 	if(req.session.sign){
+		res.render('pages/trip');
+	}else{
+		res.render('pages/login',{
+	 		tagline_login: note
+ 		});
+ 	}
+});
+
 // var user_count=0;
 
 //當新的使用者進入聊天室
