@@ -32,7 +32,6 @@ var sess;
 //     }
 // }));
 
-
 // 版型設定
 app.use(partials());
 app.set('views', path.join(__dirname, 'views'));
@@ -351,7 +350,6 @@ app.post('/logonform', function(req, res){
 		}
 	});
 });
-
 
 app.post('/backhome', function(req, res){
 	console.log("session sign:"+req.session.sign);

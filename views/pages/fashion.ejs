@@ -69,7 +69,8 @@
           appendUser(data.username);
         });
         socket.on('user left',function(data){
-          appendUser(data.username+" 已離開");
+          // appendUser(data.username+" 已離開");
+          removeUser(data.username);
         });
         $('#send').click(function(){
           var text = $('#m').val();
@@ -88,7 +89,14 @@
           message.scrollTop = message.scrollHeight;
         }
         function appendUser(user){
-          $('#user_name').append($('<li>').text(user));
+          $('#user_name').append($('<li id='+ user +'>'+ user +'</li>'));
+          // $('#user_name').append($('<li>').text(user));
+          var user = document.getElementById("user");
+          user.scrollTop = user.scrollHeight;
+        }
+        function removeUser(user){
+          $('#'+user).remove();
+          // $('#user_name').append($('<li>').text(user));
           var user = document.getElementById("user");
           user.scrollTop = user.scrollHeight;
         }
