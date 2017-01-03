@@ -318,7 +318,7 @@ app.post('/logonform', function(req, res){
 	console.log(req.body.id);
  	console.log(req.body.pw);
  
- 	database.ref('/user/').equalTo(req.body.id).on('value',function(snapshot){
+ 	database.ref('/user/').orderByChild("id").equalTo(req.body.id).on('value',function(snapshot){
  		var data = JSON.stringify(snapshot.val());  //將陣列轉換成字串
  		var result  = data.indexOf("\"id\":\""+req.body.id+"\"");   //將陣列與輸入值進行比對
  		console.log("\"id\":\""+req.body.id+"\"");
@@ -331,6 +331,7 @@ app.post('/logonform', function(req, res){
 			res.render('pages/logon', {
 		        tagline: note
 		    });
+		    return;
 		}else{
 		    console.log('ID不存在');
 		    req.session.sign = true;
