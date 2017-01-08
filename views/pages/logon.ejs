@@ -2,7 +2,24 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<% include ../partials/head %>	
+	<% include ../partials/head %>
+	<script>
+		
+	$(document).ready(function(){
+		$('#register').on(click, function(){
+			console.log('click');
+			id=$("#id").val();
+			pw=$("#pw").val();
+			$.post('/logonform', function(data){
+				console.log(data);
+				// if(data==='done'){
+				// 	reg(id, pw);
+				// 	window.location.href="/index";
+				// }
+			});
+		});
+	});
+	</script>
 </head>
 <body class="logbg">
 	<div class="wrap">
@@ -11,16 +28,16 @@
 			<h2>Register</h2>
 			<p class="note"><%= tagline %></p>
 			<form action="/logonform" method="post">
-				<input class="input" type="text" placeholder="User ID" id="id" name="id"></br>
+				<input class="input" type="text" placeholder="User ID" maxlength="10" id="id" name="id"></br>
 				<input class="input" type="password" placeholder="Password" id="pw" name="pw"></br>
-				<button>註冊</button></br>
+				<button id="register">註冊</button></br>
 			</form>
 				
 			<span class="logon" id="logon"><a href="/login">返回豋入頁</a></span>
 		</main>
     </div>
     <footer>
-	        <% include ../partials/footer %>
-	    </footer>
+	    <% include ../partials/footer %>
+	</footer>
 </body>
 </html>

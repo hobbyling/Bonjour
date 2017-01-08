@@ -3,6 +3,13 @@
 <head>
 	<meta charset="UTF-8">
 	<% include ../partials/head %>
+	<script>
+	$(document).ready(function(){
+		$('#submit').click(function(){
+			$.post('/loginform');
+		});
+	});
+	</script>
 </script>
 </head>
 <body class="logbg">
