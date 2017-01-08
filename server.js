@@ -14,6 +14,9 @@ var session = require('express-session');
 // router設定
  // var page = require('./routes/page');
 
+//favicon設定
+app.use(favicon(__dirname + '/public/favicon.ico'));
+
 // parse application/x-www-form-urlencoded 
 // 讓回傳的值可以解析 json與 urlencoded
 app.use(bodyParser.json()); 
